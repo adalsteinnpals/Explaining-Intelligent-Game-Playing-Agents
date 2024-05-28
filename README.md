@@ -5,7 +5,7 @@ This is a repository accompanying the Phd Thesis Explaining Intelligent Game-Pla
 The thesis resulted in a total of four papers:
 
 A ) A. Pálsson and Y. Björnsson, “[Evaluating interpretability methods for dnns in
-    game-playing agents](mpirical%20evaluation%20of%20concept%20probing%20for%20game-playing%20agents),” in Advances in Computer Games - 17th International Conference, 
+    game-playing agents](Empirical%20evaluation%20of%20concept%20probing%20for%20game-playing%20agents/),” in Advances in Computer Games - 17th International Conference, 
     ACG 2021, Virtual Event, November 23-25, 2021, Revised Selected Papers, 
     C. Browne, A. Kishimoto, and J. Schaeffer, Eds., ser. Lecture Notes in
     Computer Science, vol. 13262, Springer, 2021, pp. 71–81. 
