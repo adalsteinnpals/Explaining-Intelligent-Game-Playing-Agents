@@ -1,0 +1,55 @@
+{% macro construct_select() %}
+<div class="form-group">
+    <label for="combinatorial-classes">Combinatorial Classes</label>
+    <select class='form-control' name='combinatorial-classes' id='combinatorial-classes'>
+        {% for class in comboTreeClasses %}
+        <option>{{class[0]}}</option>
+        {% endfor %}
+    </select>
+</div>
+{% endmacro %}
+
+{% macro search_dropdown() %}
+<form class="navbar-form" action="{{ url_for('search')}}" method="GET">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <select class="form-control navbar-dropdown" id="search-classes" name="search-classes">
+                {% for class in comboTreeClasses %}
+                <option>{{class[0]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <td><input class='sudoku-input' type="text" class="form-control" placeholder="avoidance pattern" name="search-keywords" id="search-keywords">
+        <div class="input-group-append">
+            <button class="btn btn-default" type="submit">
+            Search
+            </button>
+        </div>
+    </div>
+</form>
+{% endmacro %}
+
+{% macro construct_sudoku(size) %}
+
+<table class='sudoku-table'>
+<caption>Sudoku to solve</caption>
+{% for _ in range(size // 3) %}
+<colgroup>
+{% for _ in range(size // 3) %}
+<col>
+{% endfor %}
+{% endfor %}
+{% for m in range(size // 3) %}
+    <tbody>
+{% for n in range(size // 3) %}
+    <tr>
+{% for d in range(size) %}
+    <td><input class='sudoku-input' type="text" name="{{"abcdefghijklmnopqrstuvwxyz"[(3*m)+n] + (d+1)|string}}" id="{{"abcdefghijklmnopqrstuvwxyz"[(3*m)+n]+ (d+1)|string}}"></input>
+{% endfor %}
+    </tr>
+{% endfor %}
+    </tbody>
+{% endfor %}
+</table>
+
+{% endmacro %}

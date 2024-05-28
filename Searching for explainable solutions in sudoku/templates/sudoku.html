@@ -1,0 +1,168 @@
+{% extends "layout.html" %} {% block content %} {% from 'macros.html' import
+construct_sudoku %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 main-container">
+      <div id="image" style="display: none">WAITING!</div>
+      <div id="stepslist">
+        <p>Total Steps: <span id="total-steps">-</span></p>
+        <p>Current Step: <span id="current-step">-</span></p>
+      </div>
+      <form id="sudoku-form" name="csp-sudoku">
+        {{ construct_sudoku(9) }}
+        <div class="form-controls">
+          <button type="submit">Solve</button>
+          <button id="clear-button" type="reset">Clear</button>
+        </div>
+      </form>
+      <div class="controls">
+        <button id="replay-sudoku">Replay</button>
+        <button id="goto-beginning">Go to start</button>
+        <div class="slidecontainer">
+          <input
+            type="range"
+            min="0"
+            max="1000"
+            value="50"
+            class="slider"
+            id="myRange"
+          />
+          <p>MilliSeconds per step: <span id="msstep"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(".sudoku-input").on("change input paste keyup", function(e) {
+    let data = e.target.value;
+    if (data.length <= 1 && data < 10) {
+      e.target.style.backgroundColor = "";
+    } else {
+      e.target.style.backgroundColor = "red";
+    }
+  });
+
+  $(document).ready(function() {
+    let slider = document.getElementById("myRange");
+    let output = document.getElementById("msstep");
+    let total_steps = document.getElementById("total-steps");
+    let current_steps = document.getElementById("current-step");
+
+    output.innerHTML = slider.value;
+
+    let cancelled_animation = false;
+    let in_animation = false;
+
+    let millisecs;
+
+    slider.oninput = function() {
+      output.innerHTML = this.value;
+      millisecs = this.value;
+    };
+
+    let arr = $("#sudoku-form").serializeArray();
+    let input_ids = arr.map(i => "#" + i.name);
+
+    let last_steps = [];
+    let last_start = [];
+
+    let current_step = 0;
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function goto_beginning() {
+      if (in_animation) cancelled_animation = true;
+
+      $("#sudoku-form")[0].reset();
+
+      current_step = 0;
+      last_start.forEach(it => {
+        $(it.name)[0].value = it.value;
+      });
+      update_steplist();
+    }
+
+    function go_to_step(step_index) {
+      current_step = step_index;
+      update_steplist();
+    }
+
+    async function animate_csp(start, end) {
+      let step;
+      let sudoku_cell, sudoku_id, sudoku_value;
+      let action;
+      let rbrackpos;
+      in_animation = true;
+      cancelled_animation = false;
+
+      for (let i = start; i < end; i++) {
+        if (cancelled_animation) break;
+        step = last_steps[i];
+        rbrackpos = step.indexOf("]");
+        action = step.substring(0, rbrackpos + 1);
+        sudoku_cell = step
+          .substring(rbrackpos + 2, rbrackpos + 4)
+          .toLowerCase();
+        sudoku_id = "#" + sudoku_cell;
+        if (action == "[UNDO]") {
+          $(sudoku_id)[0].value = "";
+        } else if (action == "[SET]") {
+          sudoku_value = step.substring(rbrackpos + 5);
+          $(sudoku_id)[0].value = sudoku_value;
+        }
+        await sleep(millisecs);
+        current_step += 1;
+        update_steplist();
+      }
+      in_animation = false;
+    }
+
+    function update_steplist() {
+      current_steps.innerHTML = current_step;
+    }
+
+    $("#goto-beginning").click(e => {
+      if (in_animation) cancelled_animation = true;
+      goto_beginning();
+    });
+
+    $("#replay-sudoku").click(e => {
+      goto_beginning();
+      animate_csp(0, last_steps.length);
+    });
+
+    $("#sudoku-form").submit(function(e) {
+      $("#image").show();
+      arr = $(this).serializeArray();
+      last_start = arr.map(it => {
+        return {
+          name: "#" + it.name,
+          value: it.value
+        };
+      });
+
+      let data = JSON.stringify(arr);
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        data: data,
+        url: '{{url_for("sudoku_solve")}}'
+      }).done(res => {
+        input_ids.forEach(item => {
+          $(item)[0].value = res.board[item];
+        });
+        last_steps = res.steps;
+        current_step = last_steps.length - 1;
+        total_steps.innerHTML = res.steps.length - 1;
+        update_steplist();
+        $("#image").hide();
+      });
+      e.preventDefault();
+    });
+  });
+</script>
+{% endblock %}
