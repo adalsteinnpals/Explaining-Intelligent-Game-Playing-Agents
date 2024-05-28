@@ -1,0 +1,9 @@
+#python p_create_all_activations.py --model_string train_setting_0 --bucket_str _lichess1m
+#python p_create_all_activations.py --model_string train_setting_2 --bucket_str _lichess1m
+#python p_create_all_activations.py --model_string train_setting_3 --bucket_str _lichess1m
+#python p_create_all_activations.py --model_string train_setting_4 --bucket_str _lichess1m
+#python p_create_all_activations.py --model_string train_setting_5 --bucket_str _lichess1m
+#python p_create_all_activations.py --model_string train_setting_6 --bucket_str _lichess1m
+#python p_create_all_activations.py --model_string train_setting_7 --bucket_str _lichess1m
+#python p_create_all_activations.py --model_string train_setting_8 --bucket_str _lichess1m
+python p_create_all_activations.py --model_string train_setting_99 --bucket_str _lichess1m

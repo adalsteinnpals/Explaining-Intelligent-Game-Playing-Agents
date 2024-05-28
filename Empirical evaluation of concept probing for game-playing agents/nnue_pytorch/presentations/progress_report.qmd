@@ -1,0 +1,49 @@
+---
+title: "Progress Report"
+author: "Aðalsteinn Pálsson"
+format:
+  revealjs:
+    logo: sitelogo.svg
+    scrollable: true
+    footer: "Progress Report"
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 5
+      buttons: false
+---
+
+## What is done
+
+- Trained agents
+    - Regular
+    - No queen advantage
+    - No bishop pair advantage
+    - No knight pair advantage
+
+
+## Tournament Results
+
+- Depth = 20
+- epoch = 400
+
+
+
+```{python}
+
+import pandas as pd
+
+name_dict = {'train_setting_0': 'Regular',
+             'train_setting_1': 'Always both with queen',
+             'train_setting_2': 'Never only one with bishop pair',
+             'train_setting_3': 'Never only one with queen',
+             'train_setting_4': 'Never only one with knight pair',}
+
+results = pd.read_csv('../tournaments/ratings/ratings_22.csv')
+results['Description'] = results['PLAYER'].map(name_dict)
+results['Delta'] = results['RATING'] -results['RATING'].max() 
+results[['Description', 'RATING', 'POINTS', 'Delta']]
+```
+
+
+## 
+

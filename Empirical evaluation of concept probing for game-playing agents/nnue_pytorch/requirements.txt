@@ -1,0 +1,7 @@
+gdown
+pytorch-lightning==1.9.0
+cupy
+python-chess==0.31.4
+torch==2.0.1 
+torchvision==0.15.2 
+torchaudio==2.0.2

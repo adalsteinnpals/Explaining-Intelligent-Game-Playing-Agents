@@ -1,0 +1,5 @@
+bash b_create_activations.sh model train_setting_0
+bash b_create_activations.sh model train_setting_1
+bash b_create_activations.sh model train_setting_2
+bash b_create_activations.sh model train_setting_3
+bash b_create_activations.sh model train_setting_4
