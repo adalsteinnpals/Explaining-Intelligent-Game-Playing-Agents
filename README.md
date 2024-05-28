@@ -1,6 +1,6 @@
 # Explaining Intelligent Game-Playing Agents
 
-This is a repository accompanying the Phd Thesis Explaining Intelligent Game-Playing Agents.
+This is a repository accompanying the Phd Thesis: Explaining Intelligent Game-Playing Agents.
 
 The thesis resulted in a total of four papers:
 
