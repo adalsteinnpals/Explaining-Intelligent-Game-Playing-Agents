@@ -2,7 +2,7 @@
 
 ## Data
 
-We used training_data.binpack from [nnue-pytorch](https://github.com/official-stockfish/nnue-pytorch/wiki/Training-datasets#good-datasets)
+We used training_data.binpack from [nnue good datasets](https://github.com/official-stockfish/nnue-pytorch/wiki/Training-datasets#good-datasets)
 
 ## Code
 
