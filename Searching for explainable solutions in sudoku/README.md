@@ -1,8 +1,8 @@
 # Sudoku XAI
 
-## Overleaf Paper
+## Paper
 
-* [Sudoku-XAI](https://www.overleaf.com/2411243129rjmpdqmwfxcx)
+* [Searching for Explainable Solutions in Sudoku](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9618900)
 
 ## Sudoku
 
